@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %} Add Review - Best Cars Dealership{% endblock %}
+{% block content %}
+<div class="container">
+
+    {% if user.is_authenticated %}
+
+    <h2>Add a review about {{ dealer.full_name }}</h2>
+
+    <form action="{% url 'djangoapp:add_review' dealer_id=dealer.id %}" method="post">
+        <div class="container">
+            {% csrf_token %}
+                <input type="hidden" name="username" value="{{ user.first_name }}({{ user.username }})">
+                <label for="review"><b>Enter the review content:</b></label>
+                <textarea class="form-control" id="review" name="review" rows="2" required></textarea>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" name="purchase_check" id="purchase">
+                        Has purchased the car from {{dealer.full_name}}?
+                    </label>
+                </div>
+                <select name="car" id="car" class="form-select" required>
+                    {% for car in cars %}
+                        <option selected value="{{car.id}}">{{car.name}}-{{car.make.name}}-{{ car.year|date:"Y" }}</option>
+                    {% endfor %}
+                </select>
+                <label for="review"><b>Select Your Purchase Date:</b></label>
+                <input class="date-own form-control" type="date" name="purchase_date" id="purchase_date">
+            {% if message %}
+            <div class="alert alert-warning">
+                {{ message }}
+            </div>
+            {% endif %}
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+
+    {% endif %}
+
+    </body>
+
+
+</div>
+{% endblock %}
