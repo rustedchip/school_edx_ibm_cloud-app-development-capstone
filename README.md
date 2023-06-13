@@ -1,1 +1,0 @@
-# school_edx_ibm_cloud-app-development-capstone
